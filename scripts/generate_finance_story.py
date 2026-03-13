@@ -3,6 +3,54 @@ import datetime
 import random
 import glob
 
+diagram_templates = [
+
+"""graph LR
+CentralBank --> CommercialBanks
+CommercialBanks --> CreditCreation
+CreditCreation --> EconomicGrowth
+""",
+
+"""graph LR
+Corporations --> OffshoreBanking
+OffshoreBanking --> TaxHavens
+TaxHavens --> GlobalInvestment
+""",
+
+"""graph LR
+Investors --> HedgeFunds
+HedgeFunds --> Leverage
+Leverage --> MarketImpact
+""",
+
+"""graph LR
+GlobalTrade --> CurrencyMarkets
+CurrencyMarkets --> ExchangeRates
+ExchangeRates --> CapitalFlows
+"""
+]
+def generate_diagram():
+
+    return random.choice(diagram_templates)
+
+maps = {
+"London":"https://upload.wikimedia.org/wikipedia/commons/8/8a/Greater_London_UK_location_map.svg",
+"New York":"https://upload.wikimedia.org/wikipedia/commons/6/6a/New_York_City_location_map.svg",
+"Singapore":"https://upload.wikimedia.org/wikipedia/commons/4/4c/Singapore_location_map.svg",
+"Hong Kong":"https://upload.wikimedia.org/wikipedia/commons/4/44/Hong_Kong_location_map.svg",
+"Zurich":"https://upload.wikimedia.org/wikipedia/commons/b/b7/Switzerland_location_map.svg",
+"Luxembourg":"https://upload.wikimedia.org/wikipedia/commons/6/6f/Luxembourg_location_map.svg",
+"Cayman Islands":"https://upload.wikimedia.org/wikipedia/commons/3/35/Cayman_Islands_location_map.svg",
+"Tokyo":"https://upload.wikimedia.org/wikipedia/commons/5/5c/Japan_location_map.svg"
+}
+
+diagrams = [
+"https://upload.wikimedia.org/wikipedia/commons/3/33/Banking_system_diagram.png",
+"https://upload.wikimedia.org/wikipedia/commons/a/a4/Financial_system_flow_diagram.png",
+"https://upload.wikimedia.org/wikipedia/commons/5/5f/International_payment_system_diagram.png"
+]
+
+
 
 def post_exists_today():
     today = str(datetime.date.today())
@@ -147,8 +195,16 @@ As financial markets continue to evolve, the lessons from this history remain hi
 
     return body * 2   # doubles length (~1200 words)
 
+def choose_visual(title):
+
+    for place in maps:
+        if place.lower() in title.lower():
+            return maps[place]
+
+    return random.choice(diagrams)
+
 def main():
-    def main():
+    
 
     if post_exists_today():
         print("Post already exists for today")
@@ -156,7 +212,9 @@ def main():
 
     today = datetime.date.today()
 
-    topic, gif = generate_topic()
+    topic = generate_topic()
+    visual = choose_visual(topic)
+    diagram = generate_diagram()
 
     slug = slugify(topic)
 
@@ -173,6 +231,10 @@ date: {today}
 categories: finance-history
 tags: global-finance financial-history banking
 ---
+```mermaid
+{diagram}
+
+![visual]({visual})
 
 ![finance gif]({gif})
 
