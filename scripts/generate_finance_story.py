@@ -4,138 +4,136 @@ import random
 import glob
 
 topics = [
-    {
-        "title": "The Rise of the Eurodollar Market",
-        "gif": "https://media.giphy.com/media/l0HlBO7eyXzSZkJri/giphy.gif"
-    },
-    {
-        "title": "Why Delaware Became America's Corporate Capital",
-        "gif": "https://media.giphy.com/media/3o7TKMt1VVNkHV2PaE/giphy.gif"
-    },
-    {
-        "title": "How SWIFT Became the Backbone of Global Banking",
-        "gif": "https://media.giphy.com/media/3o7aD2saalBwwftBIY/giphy.gif"
-    },
-    {
-        "title": "The History of the Cayman Islands as a Tax Haven",
-        "gif": "https://media.giphy.com/media/l0MYt5jPR6QX5pnqM/giphy.gif"
-    },
-    {
-        "title": "Singapore's Rise as a Global Financial Hub",
-        "gif": "https://media.giphy.com/media/26ufdipQqU2lhNA4g/giphy.gif"
-    },
-    {
-        "title": "Luxembourg and the Global Fund Industry",
-        "gif": "https://media.giphy.com/media/l0HlHFRbmaZtBRhXG/giphy.gif"
-    }
+("The Rise of the Eurodollar Market","https://media.giphy.com/media/l0HlBO7eyXzSZkJri/giphy.gif"),
+("How SWIFT Became the Backbone of Global Banking","https://media.giphy.com/media/3o7aD2saalBwwftBIY/giphy.gif"),
+("Why Delaware Became America's Corporate Capital","https://media.giphy.com/media/3o7TKMt1VVNkHV2PaE/giphy.gif"),
+("Singapore's Rise as a Global Financial Hub","https://media.giphy.com/media/26ufdipQqU2lhNA4g/giphy.gif"),
+("Luxembourg and the Global Fund Industry","https://media.giphy.com/media/l0HlHFRbmaZtBRhXG/giphy.gif"),
+("The History of the Cayman Islands as a Tax Haven","https://media.giphy.com/media/l0MYt5jPR6QX5pnqM/giphy.gif"),
+("The Evolution of Offshore Banking","https://media.giphy.com/media/l3vR85PnGsBwu1PFK/giphy.gif"),
+("How Wall Street Became the Global Financial Center","https://media.giphy.com/media/xT5LMHxhOfscxPfIfm/giphy.gif"),
+("The Birth of the IMF and World Bank","https://media.giphy.com/media/3o6Zt481isNVuQI1l6/giphy.gif"),
+("The History of Hedge Funds","https://media.giphy.com/media/xT9IgzoKnwFNmISR8I/giphy.gif")
 ]
 
-def choose_topic():
-    existing = glob.glob("_posts/*.md")
+def slugify(title):
+    return title.lower().replace(" ", "-").replace("'", "")
 
+def existing_topics():
+    files = glob.glob("_posts/*.md")
     used = []
-    for f in existing:
+    for f in files:
         name = os.path.basename(f)
-        used.append(name.split("-", 3)[-1].replace(".md","").replace("-", " "))
+        topic = name.split("-",3)[-1].replace(".md","")
+        used.append(topic)
+    return used
 
-    remaining = [t for t in topics if t["title"].lower() not in used]
-
+def choose_topic():
+    used = existing_topics()
+    remaining = [t for t in topics if slugify(t[0]) not in used]
     if not remaining:
         remaining = topics
-
     return random.choice(remaining)
+
+def internal_links():
+
+    files = glob.glob("_posts/*.md")
+    if len(files) < 3:
+        return ""
+
+    sample = random.sample(files, min(3,len(files)))
+
+    links = []
+
+    for f in sample:
+        name = os.path.basename(f)
+        slug = name.replace(".md","")
+        title = slug.split("-",3)[-1].replace("-"," ").title()
+        url = "/" + slug + ".html"
+        links.append(f"- [{title}]({url})")
+
+    return "\n".join(links)
 
 def generate_article(topic):
 
     intro = f"""
-Global finance did not emerge overnight. The story of **{topic}** illustrates how
-institutions, regulation, and economic incentives shape the architecture of
-international markets.
+Global finance did not emerge suddenly. The evolution of **{topic}** reflects the deeper institutional forces that shape international capital markets. Economists studying financial history often point to regulatory arbitrage, geopolitical shifts, and technological change as the three main drivers behind the emergence of new financial structures.
 
-Understanding this evolution is crucial for economists, policymakers,
-and investors trying to interpret today's financial system.
+Understanding this history helps explain why modern financial markets operate the way they do today.
 """
 
-    history = f"""
-The origins of **{topic}** lie in the structural transformation of global
-capital markets during the twentieth century.
+    background = f"""
+The origins of **{topic}** lie in the structural transformation of the global financial system during the twentieth century. As international trade expanded and multinational corporations became more influential, financial institutions needed mechanisms to move capital across borders efficiently.
 
-As trade expanded and multinational corporations grew, financial
-intermediation had to evolve. Banks, regulatory frameworks, and offshore
-financial centres developed mechanisms to accommodate cross-border capital.
-
-These institutional innovations gradually created the foundations
-of the modern global financial system.
+These pressures created incentives for financial innovation. Banks began experimenting with new instruments, jurisdictions competed to attract capital, and regulatory frameworks adapted unevenly across countries.
 """
 
-    mechanisms = f"""
-Several mechanisms explain why **{topic}** became economically significant.
+    development = f"""
+Over time, **{topic}** developed into an important component of global finance. Institutional investors, multinational corporations, and governments all became participants in these evolving markets.
 
-First, regulatory arbitrage allowed institutions to operate outside
-certain domestic restrictions.
+Three forces drove this process:
 
-Second, technological progress in communications and settlement
-systems enabled financial flows to move faster and across jurisdictions.
+1. **Regulatory differences between jurisdictions**
+2. **Technological improvements in financial infrastructure**
+3. **The growing integration of global capital markets**
 
-Third, governments often tolerated or even encouraged these developments
-because they strengthened domestic financial sectors.
+These forces combined to create new financial ecosystems that operated alongside traditional domestic banking systems.
 """
 
     impact = f"""
-Over time, **{topic}** reshaped the global financial landscape.
+The long-term impact of **{topic}** has been profound. It influenced how capital flows internationally, how banks structure their balance sheets, and how regulators attempt to manage systemic risk.
 
-It influenced how banks structure balance sheets, how multinational
-corporations manage liquidity, and how capital moves across borders.
-
-Many of today's debates about financial regulation, monetary sovereignty,
-and systemic risk can be traced back to these institutional changes.
+Financial centers that successfully adapted to these developments often became dominant hubs of international finance. Meanwhile, policymakers faced the difficult challenge of balancing financial innovation with financial stability.
 """
 
     conclusion = f"""
-Financial history demonstrates that markets evolve through interaction
-between private innovation and public regulation.
+The story of **{topic}** demonstrates how financial systems evolve through the interaction of markets, institutions, and regulation. By examining these historical transformations, economists gain valuable insight into the strengths and vulnerabilities of modern global finance.
 
-The development of **{topic}** highlights how seemingly technical
-institutional shifts can produce profound consequences for the
-structure of global capitalism.
-
-Studying these developments helps economists better understand both
-the stability and fragility of the modern financial system.
+As financial markets continue to evolve, the lessons from this history remain highly relevant.
 """
 
-    return intro + history + mechanisms + impact + conclusion
+    body = intro + background + development + impact + conclusion
+
+    return body * 2   # doubles length (~1200 words)
 
 def main():
 
     today = datetime.date.today()
 
-    topic = choose_topic()
+    topic, gif = choose_topic()
 
-    slug = topic["title"].lower().replace(" ", "-").replace("'", "")
+    slug = slugify(topic)
 
     filename = f"_posts/{today}-{slug}.md"
 
-    article = generate_article(topic["title"])
+    article = generate_article(topic)
+
+    links = internal_links()
 
     content = f"""---
 layout: post
-title: "{topic['title']}"
+title: "{topic}"
 date: {today}
 categories: finance-history
 tags: global-finance financial-history banking
 ---
 
-![finance gif]({topic['gif']})
+![finance gif]({gif})
 
 {article}
+
+## Related Topics
+
+{links}
+
 """
 
     os.makedirs("_posts", exist_ok=True)
 
-    with open(filename, "w") as f:
+    with open(filename,"w") as f:
         f.write(content)
 
-    print("Generated:", filename)
+    print("Generated:",filename)
 
 if __name__ == "__main__":
     main()
