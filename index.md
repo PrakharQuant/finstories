@@ -1,5 +1,6 @@
-# FinStories
+---
+layout: home
+title: FinStories
+---
 
-Welcome to **FinStories** — visual stories about global finance.
-
-Posts will appear below.
+Welcome to **FinStories** — visual stories explaining global finance.
