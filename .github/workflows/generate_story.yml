@@ -1,18 +1,38 @@
-- name: Generate post
-  run: |
-    DATE=$(date +'%Y-%m-%d')
-    FILE="_posts/${DATE}-eurodollar-market.md"
+name: Generate Finance Story
 
-    echo "---" > $FILE
-    echo "layout: post" >> $FILE
-    echo "title: \"How the Eurodollar Market Emerged in London\"" >> $FILE
-    echo "date: ${DATE}" >> $FILE
-    echo "---" >> $FILE
-    echo "" >> $FILE
-    echo "In the 1960s, banks in London began accepting large US dollar deposits outside the United States." >> $FILE
-    echo "" >> $FILE
-    echo "These deposits formed what became known as the Eurodollar market — a vast offshore dollar system that reshaped global finance." >> $FILE
-    echo "" >> $FILE
-    echo "The market grew rapidly because foreign governments and companies wanted to hold dollars outside the regulatory reach of the United States." >> $FILE
-    echo "" >> $FILE
-    echo "Over time London emerged as the central hub for this offshore dollar market, linking banks across Europe, the United States, and Asia." >> $FILE
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: "0 8 * * *"
+
+permissions:
+  contents: write
+
+jobs:
+  generate:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Generate post
+        run: |
+          DATE=$(date +'%Y-%m-%d')
+          FILE="_posts/${DATE}-finance-story.md"
+
+          echo "---" > $FILE
+          echo "layout: post" >> $FILE
+          echo "title: \"Finance Story\"" >> $FILE
+          echo "date: ${DATE}" >> $FILE
+          echo "---" >> $FILE
+          echo "" >> $FILE
+          echo "This finance story was generated automatically." >> $FILE
+
+      - name: Commit post
+        run: |
+          git config user.name "github-actions"
+          git config user.email "actions@github.com"
+          git add .
+          git commit -m "Automated finance story" || echo "No changes"
+          git push
