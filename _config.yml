@@ -1,4 +1,6 @@
 title: FinStories
 description: Visual stories explaining global finance
 theme: minima
-markdown: kramdown
+
+header_pages:
+  - about.md
