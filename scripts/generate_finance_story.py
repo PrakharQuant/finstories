@@ -3,17 +3,68 @@ import datetime
 import random
 import glob
 
-topics = [
-("The Rise of the Eurodollar Market","https://media.giphy.com/media/l0HlBO7eyXzSZkJri/giphy.gif"),
-("How SWIFT Became the Backbone of Global Banking","https://media.giphy.com/media/3o7aD2saalBwwftBIY/giphy.gif"),
-("Why Delaware Became America's Corporate Capital","https://media.giphy.com/media/3o7TKMt1VVNkHV2PaE/giphy.gif"),
-("Singapore's Rise as a Global Financial Hub","https://media.giphy.com/media/26ufdipQqU2lhNA4g/giphy.gif"),
-("Luxembourg and the Global Fund Industry","https://media.giphy.com/media/l0HlHFRbmaZtBRhXG/giphy.gif"),
-("The History of the Cayman Islands as a Tax Haven","https://media.giphy.com/media/l0MYt5jPR6QX5pnqM/giphy.gif"),
-("The Evolution of Offshore Banking","https://media.giphy.com/media/l3vR85PnGsBwu1PFK/giphy.gif"),
-("How Wall Street Became the Global Financial Center","https://media.giphy.com/media/xT5LMHxhOfscxPfIfm/giphy.gif"),
-("The Birth of the IMF and World Bank","https://media.giphy.com/media/3o6Zt481isNVuQI1l6/giphy.gif"),
-("The History of Hedge Funds","https://media.giphy.com/media/xT9IgzoKnwFNmISR8I/giphy.gif")
+
+def post_exists_today():
+    today = str(datetime.date.today())
+    files = glob.glob("_posts/*.md")
+
+    for f in files:
+        if today in f:
+            return True
+    return False
+
+
+finance_subjects = [
+"central banking",
+"sovereign debt markets",
+"global payment systems",
+"financial derivatives",
+"commodity exchanges",
+"financial crises",
+"offshore banking",
+"international banking",
+"capital markets",
+"hedge funds",
+"private equity",
+"stock exchanges",
+"bond markets",
+"currency markets",
+"global financial regulation",
+"banking supervision",
+"financial innovation",
+"shadow banking"
+]
+
+finance_places = [
+"London",
+"New York",
+"Singapore",
+"Hong Kong",
+"Zurich",
+"Luxembourg",
+"Delaware",
+"Cayman Islands",
+"Dublin",
+"Tokyo"
+]
+def generate_topic():
+
+    subject = random.choice(finance_subjects)
+
+    if random.random() < 0.5:
+        place = random.choice(finance_places)
+        title = f"The Historical Evolution of {subject.title()} in {place}"
+    else:
+        title = f"The Global History of {subject.title()}"
+
+    gif = random.choice(gifs)
+
+    return title, gif
+gifs = [
+"https://media.giphy.com/media/l0HlBO7eyXzSZkJri/giphy.gif",
+"https://media.giphy.com/media/3o7TKMt1VVNkHV2PaE/giphy.gif",
+"https://media.giphy.com/media/26ufdipQqU2lhNA4g/giphy.gif",
+"https://media.giphy.com/media/l3vR85PnGsBwu1PFK/giphy.gif"
 ]
 
 def slugify(title):
@@ -97,10 +148,15 @@ As financial markets continue to evolve, the lessons from this history remain hi
     return body * 2   # doubles length (~1200 words)
 
 def main():
+    def main():
+
+    if post_exists_today():
+        print("Post already exists for today")
+        return
 
     today = datetime.date.today()
 
-    topic, gif = choose_topic()
+    topic, gif = generate_topic()
 
     slug = slugify(topic)
 
