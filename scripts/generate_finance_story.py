@@ -197,7 +197,7 @@ As financial markets continue to evolve, the lessons from this history remain hi
 
     body = intro + origins + development + impact + conclusion
 
-    return body * 2
+    return body
 
 
 def choose_visual(title):
@@ -240,3 +240,25 @@ tags: global-finance financial-history banking
 
 ```mermaid
 {diagram}
+```
+
+![Visual]({visual})
+
+![Finance GIF]({gif})
+
+{article}
+
+## Related Posts
+{links}
+"""
+
+    os.makedirs("_posts", exist_ok=True)
+
+    with open(filename, "w") as f:
+        f.write(content)
+
+    print(f"Generated: {filename}")
+
+
+if __name__ == "__main__":
+    main()
