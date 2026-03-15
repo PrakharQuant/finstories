@@ -47,13 +47,6 @@ maps = {
 }
 
 
-diagrams = [
-"https://upload.wikimedia.org/wikipedia/commons/3/33/Banking_system_diagram.png",
-"https://upload.wikimedia.org/wikipedia/commons/a/a4/Financial_system_flow_diagram.png",
-"https://upload.wikimedia.org/wikipedia/commons/5/5f/International_payment_system_diagram.png"
-]
-
-
 gifs = [
 "https://media.giphy.com/media/l0HlBO7eyXzSZkJri/giphy.gif",
 "https://media.giphy.com/media/3o7TKMt1VVNkHV2PaE/giphy.gif",
@@ -201,12 +194,10 @@ As financial markets continue to evolve, the lessons from this history remain hi
 
 
 def choose_visual(title):
-
     for place in maps:
         if place.lower() in title.lower():
             return maps[place]
-
-    return random.choice(diagrams)
+    return None
 
 
 def main():
@@ -230,6 +221,8 @@ def main():
 
     links = internal_links()
 
+    visual_line = f"![Map]({visual})" if visual else ""
+
     content = f"""---
 layout: post
 title: "{topic}"
@@ -237,12 +230,11 @@ date: {today}
 categories: finance-history
 tags: global-finance financial-history banking
 ---
-
 ```mermaid
 {diagram}
 ```
 
-![Visual]({visual})
+{visual_line}
 
 ![Finance GIF]({gif})
 
