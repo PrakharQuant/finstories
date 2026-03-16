@@ -1,7 +1,9 @@
+````python
 import os
 import datetime
 import random
 import glob
+
 
 diagram_templates = [
 
@@ -43,7 +45,9 @@ maps = {
 "Zurich":"https://upload.wikimedia.org/wikipedia/commons/b/b7/Switzerland_location_map.svg",
 "Luxembourg":"https://upload.wikimedia.org/wikipedia/commons/6/6f/Luxembourg_location_map.svg",
 "Cayman Islands":"https://upload.wikimedia.org/wikipedia/commons/3/35/Cayman_Islands_location_map.svg",
-"Tokyo":"https://upload.wikimedia.org/wikipedia/commons/5/5c/Japan_location_map.svg"
+"Tokyo":"https://upload.wikimedia.org/wikipedia/commons/5/5c/Japan_location_map.svg",
+"Delaware":"https://upload.wikimedia.org/wikipedia/commons/4/4b/Delaware_in_United_States.svg",
+"Dublin":"https://upload.wikimedia.org/wikipedia/commons/5/5e/Ireland_location_map.svg"
 }
 
 
@@ -92,11 +96,23 @@ finance_places = [
 
 
 def post_exists_today():
+
     today = str(datetime.date.today())
     files = glob.glob("_posts/*.md")
 
     for f in files:
         if today in f:
+            return True
+
+    return False
+
+
+def topic_exists(slug):
+
+    files = glob.glob("_posts/*.md")
+
+    for f in files:
+        if slug in f:
             return True
 
     return False
@@ -133,10 +149,12 @@ def internal_links():
     links = []
 
     for f in sample:
+
         name = os.path.basename(f)
         slug = name.replace(".md","")
         title = slug.split("-",3)[-1].replace("-"," ").title()
-        url = "/" + slug + ".html"
+
+        url = "/" + slug
 
         links.append(f"- [{title}]({url})")
 
@@ -194,9 +212,11 @@ As financial markets continue to evolve, the lessons from this history remain hi
 
 
 def choose_visual(title):
+
     for place in maps:
         if place.lower() in title.lower():
             return maps[place]
+
     return None
 
 
@@ -206,14 +226,22 @@ def main():
         print("Post already exists for today")
         return
 
+
     today = datetime.date.today()
 
-    topic, gif = generate_topic()
+
+    # avoid duplicate topics
+    while True:
+
+        topic, gif = generate_topic()
+        slug = slugify(topic)
+
+        if not topic_exists(slug):
+            break
+
 
     visual = choose_visual(topic)
     diagram = generate_diagram()
-
-    slug = slugify(topic)
 
     filename = f"_posts/{today}-{slug}.md"
 
@@ -223,6 +251,7 @@ def main():
 
     visual_line = f"![Map]({visual})" if visual else ""
 
+
     content = f"""---
 layout: post
 title: "{topic}"
@@ -230,9 +259,10 @@ date: {today}
 categories: finance-history
 tags: global-finance financial-history banking
 ---
+
 ```mermaid
 {diagram}
-```
+````
 
 {visual_line}
 
@@ -241,16 +271,22 @@ tags: global-finance financial-history banking
 {article}
 
 ## Related Posts
+
 {links}
 """
 
-    os.makedirs("_posts", exist_ok=True)
+```
+os.makedirs("_posts", exist_ok=True)
 
-    with open(filename, "w") as f:
-        f.write(content)
+with open(filename, "w") as f:
+    f.write(content)
 
-    print(f"Generated: {filename}")
+print(f"Generated: {filename}")
+```
 
+if **name** == "**main**":
+main()
 
-if __name__ == "__main__":
-    main()
+```
+```
+
