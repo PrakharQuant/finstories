@@ -15,11 +15,13 @@ CreditCreation --> EconomicGrowth
 
 ![Delaware](/assets/maps/delaware.png/)
 
-![Finance GIF](https://media.giphy.com/media/26ufdipQqU2lhNA4g/giphy.gif)
+
 
 
 > **Key Insight:**  
 > The Historical Evolution of Stock Exchanges in Delaware emerged from the interaction between financial innovation, regulatory competition, and the globalization of capital markets.
+
+![Finance GIF](https://media.giphy.com/media/26ufdipQqU2lhNA4g/giphy.gif)
 
 **The Historical Evolution of Stock Exchanges in Delaware** did not emerge suddenly. Its development reflects deeper institutional forces that shape international capital markets. Economists studying financial history often point to regulatory arbitrage, geopolitical shifts, and technological change as the main drivers behind the emergence of new financial structures.
 
