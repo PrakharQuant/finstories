@@ -13,7 +13,7 @@ CreditCreation --> EconomicGrowth
 
 ```
 
-![Delaware](https://github.com/PrakharQuant/finstories/tree/main/assets/maps/delaware.png)
+![Delaware](/assets/maps/delaware.png)
 
 
 
