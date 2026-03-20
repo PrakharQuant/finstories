@@ -1,4 +1,3 @@
-
 import os
 import datetime
 import random
@@ -38,98 +37,88 @@ def generate_diagram():
 
 
 maps = {
-"London":"https://upload.wikimedia.org/wikipedia/commons/8/8a/Greater_London_UK_location_map.svg",
-"New York":"https://upload.wikimedia.org/wikipedia/commons/6/6a/New_York_City_location_map.svg",
-"Singapore":"https://upload.wikimedia.org/wikipedia/commons/4/4c/Singapore_location_map.svg",
-"Hong Kong":"https://upload.wikimedia.org/wikipedia/commons/4/44/Hong_Kong_location_map.svg",
-"Zurich":"https://upload.wikimedia.org/wikipedia/commons/b/b7/Switzerland_location_map.svg",
-"Luxembourg":"https://upload.wikimedia.org/wikipedia/commons/6/6f/Luxembourg_location_map.svg",
-"Cayman Islands":"https://upload.wikimedia.org/wikipedia/commons/3/35/Cayman_Islands_location_map.svg",
-"Tokyo":"https://upload.wikimedia.org/wikipedia/commons/5/5c/Japan_location_map.svg",
-"Delaware":"https://upload.wikimedia.org/wikipedia/commons/4/4b/Delaware_in_United_States.svg",
-"Dublin":"https://upload.wikimedia.org/wikipedia/commons/5/5e/Ireland_location_map.svg"
+    "London": "https://upload.wikimedia.org/wikipedia/commons/8/8a/Greater_London_UK_location_map.svg",
+    "New York": "https://upload.wikimedia.org/wikipedia/commons/6/6a/New_York_City_location_map.svg",
+    "Singapore": "https://upload.wikimedia.org/wikipedia/commons/4/4c/Singapore_location_map.svg",
+    "Hong Kong": "https://upload.wikimedia.org/wikipedia/commons/4/44/Hong_Kong_location_map.svg",
+    "Zurich": "https://upload.wikimedia.org/wikipedia/commons/b/b7/Switzerland_location_map.svg",
+    "Luxembourg": "https://upload.wikimedia.org/wikipedia/commons/6/6f/Luxembourg_location_map.svg",
+    "Cayman Islands": "https://upload.wikimedia.org/wikipedia/commons/3/35/Cayman_Islands_location_map.svg",
+    "Tokyo": "https://upload.wikimedia.org/wikipedia/commons/5/5c/Japan_location_map.svg",
+    "Delaware": "https://upload.wikimedia.org/wikipedia/commons/4/4b/Delaware_in_United_States.svg",
+    "Dublin": "https://upload.wikimedia.org/wikipedia/commons/5/5e/Ireland_location_map.svg"
 }
 
 
 gifs = [
-"https://media.giphy.com/media/l0HlBO7eyXzSZkJri/giphy.gif",
-"https://media.giphy.com/media/3o7TKMt1VVNkHV2PaE/giphy.gif",
-"https://media.giphy.com/media/26ufdipQqU2lhNA4g/giphy.gif",
-"https://media.giphy.com/media/l3vR85PnGsBwu1PFK/giphy.gif"
+    "https://media.giphy.com/media/l0HlBO7eyXzSZkJri/giphy.gif",
+    "https://media.giphy.com/media/3o7TKMt1VVNkHV2PaE/giphy.gif",
+    "https://media.giphy.com/media/26ufdipQqU2lhNA4g/giphy.gif",
+    "https://media.giphy.com/media/l3vR85PnGsBwu1PFK/giphy.gif"
 ]
 
 
 finance_subjects = [
-"central banking",
-"sovereign debt markets",
-"global payment systems",
-"financial derivatives",
-"commodity exchanges",
-"financial crises",
-"offshore banking",
-"international banking",
-"capital markets",
-"hedge funds",
-"private equity",
-"stock exchanges",
-"bond markets",
-"currency markets",
-"global financial regulation",
-"banking supervision",
-"financial innovation",
-"shadow banking"
+    "central banking",
+    "sovereign debt markets",
+    "global payment systems",
+    "financial derivatives",
+    "commodity exchanges",
+    "financial crises",
+    "offshore banking",
+    "international banking",
+    "capital markets",
+    "hedge funds",
+    "private equity",
+    "stock exchanges",
+    "bond markets",
+    "currency markets",
+    "global financial regulation",
+    "banking supervision",
+    "financial innovation",
+    "shadow banking"
 ]
 
 
 finance_places = [
-"London",
-"New York",
-"Singapore",
-"Hong Kong",
-"Zurich",
-"Luxembourg",
-"Delaware",
-"Cayman Islands",
-"Dublin",
-"Tokyo"
+    "London",
+    "New York",
+    "Singapore",
+    "Hong Kong",
+    "Zurich",
+    "Luxembourg",
+    "Delaware",
+    "Cayman Islands",
+    "Dublin",
+    "Tokyo"
 ]
 
 
 def post_exists_today():
-
     today = str(datetime.date.today())
     files = glob.glob("_posts/*.md")
-
     for f in files:
         if today in f:
             return True
-
     return False
 
 
 def topic_exists(slug):
-
     files = glob.glob("_posts/*.md")
-
     for f in files:
         if slug in f:
             return True
-
     return False
 
 
 def generate_topic():
-
     subject = random.choice(finance_subjects)
-
     if random.random() < 0.5:
         place = random.choice(finance_places)
         title = f"The Historical Evolution of {subject.title()} in {place}"
     else:
         title = f"The Global History of {subject.title()}"
-
     gif = random.choice(gifs)
-
     return title, gif
 
 
@@ -138,26 +127,17 @@ def slugify(title):
 
 
 def internal_links():
-
     files = glob.glob("_posts/*.md")
-
     if len(files) < 3:
         return ""
-
     sample = random.sample(files, min(3, len(files)))
-
     links = []
-
     for f in sample:
-
         name = os.path.basename(f)
-        slug = name.replace(".md","")
-        title = slug.split("-",3)[-1].replace("-"," ").title()
-
+        slug = name.replace(".md", "")
+        title = slug.split("-", 3)[-1].replace("-", " ").title()
         url = "/" + slug
-
         links.append(f"- [{title}]({url})")
-
     return "\n".join(links)
 
 
@@ -206,17 +186,13 @@ The evolution of financial systems demonstrates how markets, institutions, and r
 As financial markets continue to evolve, the lessons from this history remain highly relevant.
 """
 
-    body = intro + origins + development + impact + conclusion
-
-    return body
+    return intro + origins + development + impact + conclusion
 
 
 def choose_visual(title):
-
     for place in maps:
         if place.lower() in title.lower():
             return maps[place]
-
     return None
 
 
@@ -226,19 +202,14 @@ def main():
         print("Post already exists for today")
         return
 
-
     today = datetime.date.today()
-
 
     # avoid duplicate topics
     while True:
-
         topic, gif = generate_topic()
         slug = slugify(topic)
-
         if not topic_exists(slug):
             break
-
 
     visual = choose_visual(topic)
     diagram = generate_diagram()
@@ -251,7 +222,6 @@ def main():
 
     visual_line = f"![Map]({visual})" if visual else ""
 
-
     content = f"""---
 layout: post
 title: "{topic}"
@@ -262,7 +232,7 @@ tags: global-finance financial-history banking
 
 ```mermaid
 {diagram}
-````
+```
 
 {visual_line}
 
@@ -275,18 +245,14 @@ tags: global-finance financial-history banking
 {links}
 """
 
-```
-os.makedirs("_posts", exist_ok=True)
+    os.makedirs("_posts", exist_ok=True)
 
-with open(filename, "w") as f:
-    f.write(content)
+    with open(filename, "w") as f:
+        f.write(content)
 
-print(f"Generated: {filename}")
-```
+    print(f"Generated: {filename}")
 
-if **name** == "**main**":
-main()
 
-```
-```
+if __name__ == "__main__":
+    main()
 
